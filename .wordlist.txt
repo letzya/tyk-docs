@@ -10,6 +10,8 @@ JWK
 JWKs
 API
 APIs
+api
+apis
 Redis
 MongoDB
 Pump
@@ -53,3 +55,17 @@ proxying
 unmarshal
 Github
 packagecloud
+analytics
+natively
+IDP
+UI
+OAuth2.0
+pem
+PEM
+JQ
+jq
+hmac
+HMAC
+SHA
+sha
+keyless
