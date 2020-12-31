@@ -102,3 +102,7 @@ uptime
 CoProcess
 JSVM
 coprocess
+TykMakeBatchRequest
+TykMakeHttpRequest
+crypto
+golang
