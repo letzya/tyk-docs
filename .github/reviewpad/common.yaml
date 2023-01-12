@@ -14,7 +14,7 @@ workflows:
   - name: add-label-with-size
     always-run: true
     if:
-      - rule: $size() <= 30
+      - rule: $size() <= 40
         extra-actions:
           - '$addLabel("small")'
       - rule: $size() > 30 && $size() <= 100
