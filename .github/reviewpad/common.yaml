@@ -24,18 +24,6 @@ workflows:
         extra-actions:
           - '$addLabel("large")'
 
-/*  - name: lint-commits
-    always-run: true
-    if:
-      - rule: '!$hasLinearHistory()'
-        extra-actions:
-          - '$warn("The pull request does not have a linear history")'
-      - rule: 'true'
-        extra-actions:
-          - '$commitLint()'
-          - '$titleLint()'
-*/
-
   - name: check-for-linked-issued
     always-run: true
     if:
