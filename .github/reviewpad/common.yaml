@@ -31,17 +31,11 @@ workflows:
     then:
       - '$info("This pull request does not have a linked issue")'
 
-  - name: manage-issues-in-projects
-    always-run: true
-    on:
-      - issue
+  - name: too-big
     if:
-      - rule: $state() == "open" && !$isLinkedToProject("Reviewpad")
-        extra-actions:
-          - $addToProject("Reviewpad", "Backlog")
-      - rule: $state() == "closed"
-        extra-actions:
-          - $addToProject("Reviewpad", "Done")
+      - $fileCount() > 10
+    then:
+      - $info("Please consider splitting the pull request into smaller pull requests.")
 
   - name: first-time-contributor
     always-run: true
@@ -53,7 +47,17 @@ workflows:
   - name: empty-description
     always-run: true
     if:
-      - $size($description()) < 40
+      - $description()) == ""
     then:
       - '$warn("The description is empty. Please add more information!")'
       - '$fail("Empty description")'
+      
+  - name: comment-on-pull-request
+    description: Example comment on pull request
+    if:
+      - $description() != ""
+    then:
+      - $info("Thanks for this pull request!")
+      - $warn("Please make sure the CI is green before tagging reviewers.")
+      - $info($sprintf("Welcome %s! Thank you!", [$description()]))
+
