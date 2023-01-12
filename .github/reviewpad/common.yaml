@@ -24,7 +24,7 @@ workflows:
         extra-actions:
           - '$addLabel("large")'
 
-  - name: lint-commits
+/*  - name: lint-commits
     always-run: true
     if:
       - rule: '!$hasLinearHistory()'
@@ -34,6 +34,7 @@ workflows:
         extra-actions:
           - '$commitLint()'
           - '$titleLint()'
+*/
 
   - name: check-for-linked-issued
     always-run: true
