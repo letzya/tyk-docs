@@ -34,5 +34,5 @@ assignees:
 
 ## Checklist
 <!-- Go over all the following points, and put an `x` in all the boxes that apply -->
-- [ ] I have [reviewed the guidelines](./CONTRIBUTING.md) for contributing to this repository.
+- [ ] I have [reviewed the guidelines](../CONTRIBUTING.md) for contributing to this repository.
 - [ ] Make sure you are making a pull request against our **`master` branch** (left side). Also, it would be best if you started *your change* off *our latest `master`*.
