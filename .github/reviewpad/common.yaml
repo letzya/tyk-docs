@@ -9,9 +9,23 @@ labels:
     color: "#a8c3f7"
   large:
     color: "#8a2138"
+  fast-track:
+    color: "#76dbbe"
+
+
+rules:
+
 
 workflows:
+  - name: fast-track
+    description: Label PRs as a quick review
+    if:
+      - rule: $fileCount() == 1
+    then:
+      - $addLabel("fast-track")
+          
   - name: add-label-with-size
+    description: Label the size of PRs. Will help people when choose PR for review
     always-run: true
     if:
       - rule: $size() <= 30
@@ -25,19 +39,22 @@ workflows:
           - '$addLabel("large")'
 
   - name: check-for-linked-issued
+    description: Message to remind people to add a link to Jira, if there is one
     always-run: true
     if:
       - '!$hasLinkedIssues()'
     then:
-      - '$info("This pull request does not have a linked issue")'
+      - '$info("For internal users: Please link this PR to a ticket.")'
 
   - name: too-big
+    description: Print a warning to the user if there are more than 10 files in the PR
     if:
       - $fileCount() > 10
     then:
       - $info("Please consider splitting the pull request into smaller pull requests.")
 
   - name: first-time-contributor
+   description: Print welcome message to the user if it's his first PR
     always-run: true
     if:
       - '$pullRequestCountBy($author(), "all") == 1'
@@ -45,9 +62,10 @@ workflows:
       - '$commentOnce($sprintf("Welcome @%v! Thank you so much for your first pull request!", [$author()]))'
 
   - name: empty-description
+    description: Print warning message to the user if his description is empty
     always-run: true
     if:
-      - $description()) == ""
+      - $description() == ""
     then:
       - '$warn("The description is empty. Please add more information!")'
       - '$fail("Empty description")'
