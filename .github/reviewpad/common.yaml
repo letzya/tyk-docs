@@ -53,7 +53,7 @@ workflows:
   - name: empty-description
     always-run: true
     if:
-      - $length($description()) < 40
+      - $size($description()) < 40
     then:
       - '$warn("The description is empty. Please add more information!")'
       - '$fail("Empty description")'
