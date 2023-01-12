@@ -14,7 +14,7 @@ workflows:
   - name: add-label-with-size
     always-run: true
     if:
-      - rule: $size() <= 40
+      - rule: $size() <= 30
         extra-actions:
           - '$addLabel("small")'
       - rule: $size() > 30 && $size() <= 100
@@ -53,7 +53,7 @@ workflows:
   - name: empty-description
     always-run: true
     if:
-      - $description() == ""
+      - $length($description()) < 40
     then:
       - '$warn("The description is empty. Please add more information!")'
       - '$fail("Empty description")'
