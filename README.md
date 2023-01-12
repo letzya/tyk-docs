@@ -1,6 +1,7 @@
 # Tyk Documentation
 
 [![Hugo build](https://github.com/letzya/tyk-docs/actions/workflows/ci.yaml/badge.svg)](https://github.com/letzya/tyk-docs/actions/workflows/ci.yaml)
+[![Hugo build](https://github.com/letzya/tyk-docs/actions/workflows/ci.yaml/badge.svg)](https://github.com/letzya/tyk-docs/actions/workflows/ci.yaml)
 
 Test reviewpad!
 This repository contains the [Tyk Documentation](https://tyk.io/docs/) source.
