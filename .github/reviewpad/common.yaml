@@ -25,7 +25,7 @@ workflows:
       - $addLabel("fast-track")
           
   - name: add-label-with-size
-    description: Label the size of PRs. Will help people when choose PR for review
+    description: Label the size of PRs. Will help people when choosing PR for review
     always-run: true
     if:
       - rule: $size() <= 30
@@ -39,7 +39,7 @@ workflows:
           - '$addLabel("large")'
 
   - name: check-for-linked-issued
-    description: Message to remind people to add a link to Jira, if there is one
+    description: Print an info message to remind people to add a link to Jira, if there is one
     always-run: true
     if:
       - '!$hasLinkedIssues()'
@@ -54,7 +54,7 @@ workflows:
       - $info("Please consider splitting the pull request into smaller pull requests.")
 
   - name: first-time-contributor
-   description: Print welcome message to the user if it's his first PR
+    description: Print a welcome message to the user if it's his first PR
     always-run: true
     if:
       - '$pullRequestCountBy($author(), "all") == 1'
@@ -62,7 +62,7 @@ workflows:
       - '$commentOnce($sprintf("Welcome @%v! Thank you so much for your first pull request!", [$author()]))'
 
   - name: empty-description
-    description: Print warning message to the user if his description is empty
+    description: Print a warning message to the user if his description is empty
     always-run: true
     if:
       - $description() == ""
