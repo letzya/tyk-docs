@@ -37,6 +37,7 @@ workflows:
       - rule: $size() > 100
         extra-actions:
           - '$addLabel("large")'
+          - $warning("Please consider splitting the pull request into smaller pull requests.")
 
   - name: check-for-linked-issued
     description: Print an info message to remind people to add a link to Jira, if there is one
@@ -51,7 +52,7 @@ workflows:
     if:
       - $fileCount() > 10
     then:
-      - $info("Please consider splitting the pull request into smaller pull requests.")
+      - $warning("Please consider splitting the pull request into smaller pull requests.")
 
   - name: first-time-contributor
     description: Print a welcome message to the user if it's his first PR
@@ -62,7 +63,7 @@ workflows:
       - '$commentOnce($sprintf("Welcome @%v! Thank you so much for your first pull request!", [$author()]))'
 
   - name: empty-description
-    description: Print a warning message to the user if his description is empty
+    description: Fail the CI pipeline and print a warning message to the user if his description is empty
     always-run: true
     if:
       - $description() == ""
@@ -72,10 +73,21 @@ workflows:
       
   - name: comment-on-pull-request
     description: Example comment on pull request
+    always-run: true
     if:
       - $description() != ""
     then:
       - $info("Thanks for this pull request!")
       - $warn("Please make sure the CI is green before tagging reviewers.")
       - $info($sprintf("Welcome %s! Thank you!", [$description()]))
+      
+  - name: handle-conflicts
+    description: Fail the CI pipeline and print a warning message in case of conflicts in the PR
+    always-run: true
+    if:
+      - $hasGitConflicts()
+    then:
+      - $addLabel("conflicts")
+      - $warn("This pull request has merge conflicts. Please resolve them and then rebase on the base branch.")  
+      - '$fail("Conflicts found")'
 
