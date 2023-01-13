@@ -77,9 +77,9 @@ workflows:
     if:
       - $description() != ""
     then:
+      - $warn("Please make sure the CI is green before tagging reviewers.")
       - $info("Thanks for this pull request!")
       - $info($sprintf("Welcome %s! Thank you!", [$description()]))
-      - $warn("Please make sure the CI is green before tagging reviewers.")
       
   - name: handle-conflicts
     description: Fail the CI pipeline and print a warning message in case of conflicts in the PR
@@ -110,6 +110,6 @@ workflows:
     descrioption: Don't allow updating of auto-gen file
     always-run: true
     if:
-      - $hasFileName("dashboard-config.md")
+      - $hasFileName("tyk-docs/content/shared/dashboard-config.md")
     then:
       - $error("This pull request has merge conflicts. Please resolve them and then rebase on the base branch.")     
