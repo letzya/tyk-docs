@@ -79,7 +79,6 @@ workflows:
     then:
       - $warn("Please make sure the CI is green before tagging reviewers.")
       - $info("Thanks for this pull request!")
-      - $info($sprintf("Welcome %s! Thank you!", [$description()]))
       
   - name: handle-conflicts
     description: Fail the CI pipeline and print a warning message in case of conflicts in the PR
