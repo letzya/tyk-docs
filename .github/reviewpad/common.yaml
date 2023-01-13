@@ -72,14 +72,14 @@ workflows:
       - '$fail("Empty description")'
       
   - name: comment-on-pull-request
-    description: Example comment on pull request
+    description: Print nice message for submitting a pull request
     always-run: true
     if:
       - $description() != ""
     then:
       - $info("Thanks for this pull request!")
-      - $warn("Please make sure the CI is green before tagging reviewers.")
       - $info($sprintf("Welcome %s! Thank you!", [$description()]))
+      - $warn("Please make sure the CI is green before tagging reviewers.")
       
   - name: handle-conflicts
     description: Fail the CI pipeline and print a warning message in case of conflicts in the PR
@@ -90,4 +90,26 @@ workflows:
       - $addLabel("conflicts")
       - $warn("This pull request has merge conflicts. Please resolve them and then rebase on the base branch.")  
       - '$fail("Conflicts found")'
+    
+  - name: protect-actions
+    description: Disable merges for draft PR. MAke sure we don't merge a draft by mistake or manually or with a bugged automation
+    if:
+      - $isDraft()
+    then:
+      - $disableActions(["merge"])
 
+  - name: disallow-binary-file
+    description: Return an error when PR includes a binary file
+    if:
+      - $hasBinaryFile()
+    then:
+      - $close()
+      - $error("Please don't add any binary file into the repository")
+      
+  - name: auto-gen-file
+    descrioption: Don't allow updating of auto-gen file
+    always-run: true
+    if:
+      - $hasFileName("dashboard-config.md")
+    then:
+      - $error("This pull request has merge conflicts. Please resolve them and then rebase on the base branch.")     
