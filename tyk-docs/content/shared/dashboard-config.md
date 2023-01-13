@@ -1,5 +1,5 @@
-### listen_port
-EV: <b>TYK_DB_LISTENPORT</b><br />
+### listen_por
+EV: <b>TYK_DB_LISTENPOR</b><br />
 Type: `int`<br />
 
 Setting this value will change the port that Tyk Dashboard listens on. Default: 3000.
