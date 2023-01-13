@@ -77,8 +77,8 @@ workflows:
     if:
       - $description() != ""
     then:
-      - $warn("Please make sure the CI is green before tagging reviewers.")
       - $info("Thanks for this pull request!")
+      - $info("Please make sure the CI is green before tagging reviewers!!!")
       
   - name: handle-conflicts
     description: Fail the CI pipeline and print a warning message in case of conflicts in the PR
