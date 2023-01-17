@@ -103,12 +103,16 @@ workflows:
       - $hasBinaryFile()
     then:
       - $close()
-      - $error("Please don't add any binary file into the repository")
+      - $fail("Please don't add any binary file into the repository")
       
   - name: auto-gen-file
     descrioption: Don't allow updating of auto-gen file
     always-run: true
     if:
       - $hasFileName("tyk-docs/content/shared/dashboard-config.md")
+      - $hasFileName("tyk-docs/content/shared/gateway-config.md")
+      - $hasFileName("tyk-docs/content/shared/mdcb-config.md")
+      - $hasFileName("tyk-docs/content/shared/pump-config.md")
+       - $hasFileName("tyk-docs/content/shared/x-tyk-gateway.md")
     then:
-      - $error("This pull request has merge conflicts. Please resolve them and then rebase on the base branch.")     
+      - $fail("One of your files is auto gen file and as such cannot be update. Please remove it from the PR.")     
