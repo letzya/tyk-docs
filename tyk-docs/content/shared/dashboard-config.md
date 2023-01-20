@@ -1,4 +1,4 @@
-### listen_por
+### listen_port
 EV: <b>TYK_DB_LISTENPOR</b><br />
 Type: `int`<br />
 
