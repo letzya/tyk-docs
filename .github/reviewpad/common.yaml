@@ -37,6 +37,7 @@ workflows:
       - rule: $size() > 100
         extra-actions:
           - '$addLabel("large")'
+          - $warning("Please consider splitting the pull request into smaller pull requests.")
 
   - name: check-for-linked-issued
     description: Print an info message to remind people to add a link to Jira, if there is one
@@ -51,7 +52,7 @@ workflows:
     if:
       - $fileCount() > 10
     then:
-      - $info("Please consider splitting the pull request into smaller pull requests.")
+      - $warning("Please consider splitting the pull request into smaller pull requests.")
 
   - name: first-time-contributor
     description: Print a welcome message to the user if it's his first PR
@@ -62,7 +63,7 @@ workflows:
       - '$commentOnce($sprintf("Welcome @%v! Thank you so much for your first pull request!", [$author()]))'
 
   - name: empty-description
-    description: Print a warning message to the user if his description is empty
+    description: Fail the CI pipeline and print a warning message to the user if his description is empty
     always-run: true
     if:
       - $description() == ""
@@ -71,11 +72,47 @@ workflows:
       - '$fail("Empty description")'
       
   - name: comment-on-pull-request
-    description: Example comment on pull request
+    description: Print nice message for submitting a pull request
+    always-run: true
     if:
       - $description() != ""
     then:
       - $info("Thanks for this pull request!")
-      - $warn("Please make sure the CI is green before tagging reviewers.")
-      - $info($sprintf("Welcome %s! Thank you!", [$description()]))
+      - $info("Please make sure the CI is green before tagging reviewers!!!")
+      
+  - name: handle-conflicts
+    description: Fail the CI pipeline and print a warning message in case of conflicts in the PR
+    always-run: true
+    if:
+      - $hasGitConflicts()
+    then:
+      - $addLabel("conflicts")
+      - $warn("This pull request has merge conflicts. Please resolve them and then rebase on the base branch.")  
+      - '$fail("Conflicts found")'
+    
+  - name: protect-actions
+    description: Disable merges for draft PR. MAke sure we don't merge a draft by mistake or manually or with a bugged automation
+    if:
+      - $isDraft()
+    then:
+      - $disableActions(["merge"])
 
+  - name: disallow-binary-file
+    description: Return an error when PR includes a binary file
+    if:
+      - $hasBinaryFile()
+    then:
+      - $close()
+      - $fail("Please don't add any binary file into the repository")
+      
+  - name: auto-gen-file
+    descrioption: Don't allow updating of auto-gen file
+    always-run: true
+    if:
+      - $hasFileName("tyk-docs/content/shared/dashboard-config.md")
+      - $hasFileName("tyk-docs/content/shared/gateway-config.md")
+      - $hasFileName("tyk-docs/content/shared/mdcb-config.md")
+      - $hasFileName("tyk-docs/content/shared/pump-config.md")
+       - $hasFileName("tyk-docs/content/shared/x-tyk-gateway.md")
+    then:
+      - $fail("One of your files is auto gen file and as such cannot be update. Please remove it from the PR.")     
