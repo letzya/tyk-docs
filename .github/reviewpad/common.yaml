@@ -72,7 +72,7 @@ workflows:
       - '$fail("Empty description")'
       
   - name: comment-on-pull-request
-    description: Print nice message for submitting a pull request
+    description: Print a nice message for submitting a pull request
     always-run: true
     if:
       - $description() != ""
@@ -91,7 +91,7 @@ workflows:
       - '$fail("Conflicts found")'
     
   - name: protect-actions
-    description: Disable merges for draft PR. MAke sure we don't merge a draft by mistake or manually or with a bugged automation
+    description: Disable merges for draft PR. Make sure we don't merge a draft by mistake or manually or with a bugged automation
     if:
       - $isDraft()
     then:
@@ -106,7 +106,7 @@ workflows:
       - $fail("Please don't add any binary file into the repository")
       
   - name: auto-gen-file
-    descrioption: Don't allow updating of auto-gen file
+    description: "Don't allow updating of auto-gen file
     always-run: true
     if:
       - $hasFileName("tyk-docs/content/shared/dashboard-config.md")
